@@ -45,7 +45,7 @@ class StreakProgressServiceTest {
     @BeforeEach
     void setUp() {
         AppProperties properties = new AppProperties("America/Lima", null, null,
-                new AppProperties.Streak(4, 24, 10, List.of(7, 30)), null, null, null, null, null, null, null);
+                new AppProperties.Streak(4, 24, 10, List.of(7, 30)), null, null, null, null, null, null, null, null);
         service = new StreakProgressService(personalStreakService, walletService, properties, eventPublisher);
         ana = user(1L);
         jhan = user(2L);

@@ -8,6 +8,7 @@ import com.mutuals.event.ChallengeAssignedEvent;
 import com.mutuals.event.ChallengeCompletedEvent;
 import com.mutuals.event.InteractionConfirmedEvent;
 import com.mutuals.event.InteractionPendingEvent;
+import com.mutuals.event.MomentStartedEvent;
 import com.mutuals.event.MutualCreatedEvent;
 import com.mutuals.event.ProximityDetectedEvent;
 import com.mutuals.event.ShieldGiftedEvent;
@@ -49,6 +50,7 @@ public class NotificationEventListener {
     private static final String REF_CHALLENGE = "CHALLENGE";
     private static final String REF_ACTIVITY = "ACTIVITY";
     private static final String REF_WRAPPED = "WRAPPED";
+    private static final String REF_MOMENT = "MOMENT";
 
     private final NotificationService notificationService;
     private final UserRepository userRepository;
@@ -73,6 +75,16 @@ public class NotificationEventListener {
                 "Invítalo a su primera racha", REF_USER, event.userBId());
         notifyHigh(event.userBId(), NotificationType.MUTUAL_CREATED, "Tú y " + name(event.userAId()) + " ahora son mutuals",
                 "Invítalo a su primera racha", REF_USER, event.userAId());
+    }
+
+    @Async
+    @TransactionalEventListener(fallbackExecution = true)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void onMomentStarted(MomentStartedEvent event) {
+        notifyHigh(event.recipientId(), NotificationType.MOMENT_STARTED,
+                name(event.initiatorId()) + " lanzó un momento",
+                "¡Tienen unos minutos para tomar una foto de lo que están haciendo!",
+                REF_MOMENT, event.momentId());
     }
 
     @Async

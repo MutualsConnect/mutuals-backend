@@ -73,6 +73,7 @@ la racha en una evidencia real de contacto y no en un número inflado.
 | Invitaciones de racha | Una racha empieza solo si el amigo acepta; se respeta el límite del plan. |
 | Interacciones con confirmación mutua | Un usuario registra la interacción y el otro la confirma o rechaza en 24 horas. |
 | Check-in por QR y por proximidad | El QR cambia cada 30 s y está firmado con HMAC; la proximidad valida distancia (100 m) y tiempo (120 s). |
+| **Momentos de foto** | Una persona lanza un momento y ambas tienen 2 minutos para subir una foto de lo que hacen; si las dos llegan a tiempo, la racha del día se confirma sola con el método `PHOTO`. La foto del otro se revela al completarse. |
 | Rachas, historial y escudos | El contador sube con cada día confirmado; un escudo evita que se rompa un día. |
 | Billetera, gemas y regalos | Se ganan gemas por semanas completas y se compran o regalan escudos. |
 | Logros, avatar y retos semanales | Gamificación que premia la constancia. |
@@ -336,6 +337,7 @@ mvn spring-boot:run               # API en http://localhost:8080
 | Rachas | `POST/GET /streak-invitations`, `PATCH/DELETE /streak-invitations/{id}`, `GET /streaks/history`, `GET /streaks/{id}`, `POST /streaks/{id}/shield` |
 | Interacciones | `POST /interactions`, `POST /interactions/{id}/confirm`, `/reject`, `GET /interactions/pending`, `/timeline` |
 | Check-in | `GET /qr-codes/me`, `POST /check-ins/qr`, `/check-ins/proximity`, `POST /locations` |
+| Momentos de foto | `POST /moments`, `GET /moments/active`, `/moments/history`, `/moments/{id}`, `POST /moments/{id}/photo` |
 | Economía | `GET /wallet`, `/wallet/transactions`, `POST /shields/purchase`, `/shields/gifts` |
 | Gamificación | `GET /achievements`, `/avatar-items`, `/challenges`, `POST /challenges/{id}/submissions` |
 | Social feed | `GET /activities`, `POST/DELETE /activities/{id}/likes`, `GET/POST /activities/{id}/comments` |
