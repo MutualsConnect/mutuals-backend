@@ -16,7 +16,8 @@ public record AppProperties(
         Mail mail,
         Push push,
         Storage storage,
-        Seed seed
+        Seed seed,
+        Moment moment
 ) {
     public record Jwt(String secret, long accessTokenMinutes, long refreshTokenDays) {
     }
@@ -30,6 +31,10 @@ public record AppProperties(
 
     public record Proximity(double maxDistanceMeters, long maxTimeDiffSeconds, long locationTtlMinutes,
                             double detectionDistanceMeters) {
+    }
+
+    /** Ventana para que ambos amigos tomen su foto del momento. */
+    public record Moment(long windowSeconds) {
     }
 
     public record Qr(String secret, long tokenSeconds) {

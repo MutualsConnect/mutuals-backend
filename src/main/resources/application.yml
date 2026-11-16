@@ -71,6 +71,8 @@ mutuals:
     max-time-diff-seconds: 120
     location-ttl-minutes: 10
     detection-distance-meters: 150
+  moment:
+    window-seconds: ${MOMENT_WINDOW_SECONDS:120}
   qr:
     secret: ${QR_SECRET:change-me-dev-only-qr-secret-with-at-least-32-chars}
     token-seconds: 30
