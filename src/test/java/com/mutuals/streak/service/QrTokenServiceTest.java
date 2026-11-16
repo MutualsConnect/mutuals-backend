@@ -17,7 +17,7 @@ class QrTokenServiceTest {
 
     private QrTokenService serviceAt(Instant instant) {
         AppProperties properties = new AppProperties("America/Lima", null, null, null, null,
-                new AppProperties.Qr("unit-test-secret-unit-test-secret-123", 30), null, null, null, null, null);
+                new AppProperties.Qr("unit-test-secret-unit-test-secret-123", 30), null, null, null, null, null, null);
         return new QrTokenService(properties, Clock.fixed(instant, ZoneOffset.UTC));
     }
 
