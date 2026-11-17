@@ -2,7 +2,7 @@
 # Builds and (re)starts the API on the EC2 instance. Run it as ec2-user after creating ~/mutuals.env.
 set -euo pipefail
 
-REPO_URL="${REPO_URL:-https://github.com/inkarrime/mutuals.git}"
+REPO_URL="${REPO_URL:-https://github.com/MutualsConnect/mutuals-backend.git}"
 BRANCH="${BRANCH:-master}"
 APP_DIR="${APP_DIR:-$HOME/mutuals}"
 ENV_FILE="${ENV_FILE:-$HOME/mutuals.env}"
