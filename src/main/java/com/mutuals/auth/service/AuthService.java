@@ -1,6 +1,7 @@
 package com.mutuals.auth.service;
 
 import com.mutuals.auth.dto.AuthResponse;
+import com.mutuals.auth.dto.GoogleLoginRequest;
 import com.mutuals.auth.dto.LoginRequest;
 import com.mutuals.auth.dto.RegisterRequest;
 import com.mutuals.auth.entity.RefreshToken;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.util.Locale;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,7 @@ public class AuthService {
     private final UserMapper userMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final Clock clock;
+    private final GoogleTokenVerifier googleTokenVerifier;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -82,6 +85,65 @@ public class AuthService {
         User user = userRepository.findById(principal.getId()).orElseThrow(InvalidCredentialsException::new);
         user.setLastActiveAt(clock.instant());
         return buildResponse(user);
+    }
+
+    /**
+     * Inicia sesión con Google. Si el correo (verificado por Google) ya existe, entra a esa cuenta;
+     * si no, crea una cuenta nueva con un username generado y una contraseña aleatoria
+     * (puede definir una propia con "olvidé mi contraseña").
+     */
+    @Transactional
+    public AuthResponse loginWithGoogle(GoogleLoginRequest request) {
+        GoogleTokenVerifier.GoogleUser google = googleTokenVerifier.verify(request.idToken());
+        String email = google.email().trim().toLowerCase(Locale.ROOT);
+        User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
+        if (user == null) {
+            return buildResponse(registerFromGoogle(email, google));
+        }
+        if (!user.isActive()) {
+            throw new AccountSuspendedException();
+        }
+        if (user.getAvatarUrl() == null && google.picture() != null && google.picture().length() <= 500) {
+            user.setAvatarUrl(google.picture());
+        }
+        user.setLastActiveAt(clock.instant());
+        return buildResponse(user);
+    }
+
+    private User registerFromGoogle(String email, GoogleTokenVerifier.GoogleUser google) {
+        String username = uniqueUsername(email.substring(0, email.indexOf('@')));
+        String name = google.name() == null || google.name().isBlank() ? username : google.name().trim();
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setDisplayName(name.length() > 50 ? name.substring(0, 50) : name);
+        user.setPasswordHash(passwordEncoder.encode(UUID.randomUUID().toString()));
+        if (google.picture() != null && google.picture().length() <= 500) {
+            user.setAvatarUrl(google.picture());
+        }
+        user.setLastActiveAt(clock.instant());
+        user.attachPreferences(new UserPreferences());
+        user.attachCustomization(new ProfileCustomization());
+        User saved = userRepository.save(user);
+        eventPublisher.publishEvent(new UserRegisteredEvent(saved.getId()));
+        return saved;
+    }
+
+    /** Convierte la parte local del correo en un username válido (^[a-z0-9._]{3,30}$) y libre. */
+    private String uniqueUsername(String localPart) {
+        String base = localPart.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9._]", "");
+        if (base.length() < 3) {
+            base = base + "user";
+        }
+        if (base.length() > 24) {
+            base = base.substring(0, 24);
+        }
+        String candidate = base;
+        int suffix = 1;
+        while (userRepository.existsByUsername(candidate)) {
+            candidate = base + suffix++;
+        }
+        return candidate;
     }
 
     @Transactional(noRollbackFor = InvalidTokenException.class)

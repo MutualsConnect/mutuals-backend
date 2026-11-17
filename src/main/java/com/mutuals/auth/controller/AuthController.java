@@ -1,6 +1,7 @@
 package com.mutuals.auth.controller;
 
 import com.mutuals.auth.dto.AuthResponse;
+import com.mutuals.auth.dto.GoogleLoginRequest;
 import com.mutuals.auth.dto.LoginRequest;
 import com.mutuals.auth.dto.PasswordResetConfirmRequest;
 import com.mutuals.auth.dto.PasswordResetRequest;
@@ -39,6 +40,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @Operation(summary = "Iniciar sesión o registrarse con Google (ID token de Google Identity Services)")
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> loginWithGoogle(@Valid @RequestBody GoogleLoginRequest request) {
+        return ResponseEntity.ok(authService.loginWithGoogle(request));
     }
 
     @Operation(summary = "Renovar el access token (rota el refresh token)")
