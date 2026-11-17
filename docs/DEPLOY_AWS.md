@@ -46,7 +46,7 @@ Cuando el estado sea *Available*, copia el **Endpoint** (algo como `mutuals-db.x
 Conéctate a la instancia (**Connect → EC2 Instance Connect**) y ejecuta:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/inkarrime/mutuals/master/deploy/aws/production.env.example -o ~/mutuals.env
+curl -fsSL https://raw.githubusercontent.com/MutualsConnect/mutuals-backend/master/deploy/aws/production.env.example -o ~/mutuals.env
 nano ~/mutuals.env
 ```
 
@@ -55,7 +55,7 @@ Completa `DB_URL` con el endpoint de RDS, `DB_PASSWORD`, `JWT_SECRET`, `QR_SECRE
 
 ```bash
 chmod 600 ~/mutuals.env
-curl -fsSL https://raw.githubusercontent.com/inkarrime/mutuals/master/deploy/aws/deploy.sh -o ~/deploy.sh
+curl -fsSL https://raw.githubusercontent.com/MutualsConnect/mutuals-backend/master/deploy/aws/deploy.sh -o ~/deploy.sh
 bash ~/deploy.sh
 ```
 
@@ -63,7 +63,7 @@ El script clona `master`, construye la imagen, arranca el contenedor con `SPRING
 (ver [`application-prod.yml`](../src/main/resources/application-prod.yml)) y espera a que `/actuator/health` responda.
 La primera compilación tarda unos minutos en una instancia micro.
 
-> Si el repositorio es privado, clónalo antes con un token: `git clone https://<token>@github.com/inkarrime/mutuals.git ~/mutuals`.
+> Si el repositorio es privado, clónalo antes con un token: `git clone https://<token>@github.com/MutualsConnect/mutuals-backend.git ~/mutuals`.
 
 ## 5. Verificación
 
