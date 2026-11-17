@@ -9,7 +9,8 @@
 | Ashly Nicole Veliz Barba | 202210422 |
 | Jhanpiere Alejandro Montes Quispe | 202210413 |
 
-**API desplegada:** `http://<IP-PUBLICA-EC2>` · Swagger: `http://<IP-PUBLICA-EC2>/swagger-ui.html`
+**API desplegada:** <http://3.144.115.104> · Swagger: <http://3.144.115.104/swagger-ui.html>
+**Frontend web desplegado:** <https://mutuals-web.vercel.app> ([repositorio](https://github.com/MutualsConnect/mutuals-web))
 **Colección de Postman:** [`postman_collection.json`](postman_collection.json)
 
 ---
