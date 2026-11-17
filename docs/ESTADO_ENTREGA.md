@@ -30,8 +30,8 @@ Leyenda: ✅ Hecho · ⚠️ Parcial o por verificar · ❌ Pendiente
 | 7.1 | Eventos | 1.0 | ✅ | 22 eventos con `@TransactionalEventListener` |
 | 7.2 | Procesamiento asíncrono | 0.5 | ✅ | `@Async` con `ThreadPoolTaskExecutor` en varios servicios |
 | 7.3 | Correo con plantillas | 0.5 | ✅ | 4 plantillas Thymeleaf; bienvenida y recuperación verificadas en Mailpit |
-| 8 | Deployment en AWS | 2.0 | ⚠️ | Perfil `prod`, scripts y guía listos (`docs/DEPLOY_AWS.md`); falta crear EC2 + RDS en la cuenta AWS |
-| 9.1 | README y documentación | 0.4 | ✅ | Informe completo en `README.md`; falta pegar el link de AWS |
+| 8 | Deployment en AWS | 2.0 | ✅ | Desplegado en EC2 + RDS (PostgreSQL): http://3.144.115.104 · Swagger: http://3.144.115.104/swagger-ui.html. Guía en `docs/DEPLOY_AWS.md` |
+| 9.1 | README y documentación | 0.4 | ✅ | Informe completo en `README.md` con los links de la API en AWS y del frontend en Vercel |
 | 9.2 | Control de versiones | 0.4 | ❌ | Faltan commits, ramas por feature, PRs con code review |
 | 9.3 | Gestión de proyecto | 0.2 | ❌ | Faltan GitHub Issues/Projects, milestones y labels |
 
@@ -57,4 +57,4 @@ Leyenda: ✅ Hecho · ⚠️ Parcial o por verificar · ❌ Pendiente
 
 ## Resumen
 
-Pendientes: crear EC2 + RDS en AWS siguiendo `docs/DEPLOY_AWS.md` (2 pts) y poner el link en el README, integrar las ramas con pull requests revisados (0.4) y crear Issues, milestones y Project en GitHub (0.2).
+Pendientes: integrar las ramas con pull requests revisados (0.4) y crear Issues, milestones y Project en GitHub (0.2).
